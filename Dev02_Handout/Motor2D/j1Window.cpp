@@ -113,7 +113,3 @@ uint j1Window::GetScale() const
 	return scale;
 }
 
-void j1Window::Save(pugi::xml_node& node)
-{
-
-}

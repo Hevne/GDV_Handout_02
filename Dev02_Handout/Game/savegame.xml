@@ -6,7 +6,6 @@
 	<audio />
 	<scene />
 	<renderer>
-		<camera x="250" y="20" />
+		<camera x="-433" y="-168" />
 	</renderer>
 </save>
-9:50 25/09/2019

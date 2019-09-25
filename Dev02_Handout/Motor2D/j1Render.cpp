@@ -51,13 +51,16 @@ bool j1Render::Awake(pugi::xml_node& config)
 	return ret;
 }
 
-bool j1Render::Load(pugi::xml_node& savedgame)
-{
-	bool ret = true;
-
+void j1Render::Load(pugi::xml_node& savedgame)
+{	
 	camera.x = savedgame.child("camera").attribute("x").as_int();
 	camera.y = savedgame.child("camera").attribute("y").as_int();
-	return ret;
+}
+
+void j1Render::Save(pugi::xml_node& savedgame)
+{
+	savedgame.child("camera").attribute("x").set_value(camera.x);
+	savedgame.child("camera").attribute("y").set_value(camera.y);
 }
 
 // Called before the first frame

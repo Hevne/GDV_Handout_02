@@ -53,7 +53,7 @@ public:
 	
 
 	void Save();
-	bool Load();
+	void Load();
 	
 
 private:
@@ -61,7 +61,6 @@ private:
 	// Load config file
 	bool LoadConfig();
 	//Load savegame file
-	bool LoadSavedGame();
 
 	// Call modules before each loop iteration
 	void PrepareUpdate();

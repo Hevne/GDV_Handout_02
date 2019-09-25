@@ -60,16 +60,9 @@ public:
 	}
 
 	// TODO 2: Create new virtual methods to Load and Save
-	virtual void Save(pugi::xml_node&) 
-	{
-	
-	}
+	virtual void Save(pugi::xml_node&){}
 
-	virtual bool Load(pugi::xml_node&)
-	{
-		return true;
-	}
-
+	virtual void Load(pugi::xml_node&){}
 public:
 
 	p2SString	name;

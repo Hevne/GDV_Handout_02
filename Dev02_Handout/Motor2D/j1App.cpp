@@ -63,7 +63,7 @@ void j1App::AddModule(j1Module* module)
 bool j1App::Awake()
 {
 	bool ret = LoadConfig();
-
+	pugi::xml_parse_result result = savegame_file.load_file("savegame.xml");
 	// self-config
 	title.create(app_config.child("title").child_value());
 	organization.create(app_config.child("organization").child_value());
@@ -143,23 +143,7 @@ bool j1App::LoadConfig()
 	return ret;
 }
 
-bool j1App::LoadSavedGame()
-{
-	bool ret = true;
-	pugi::xml_parse_result result = savegame_file.load_file("savegame.xml");
 
-	if (result == NULL)
-	{
-		LOG("Could not load map xml file savegame.xml. pugi error: %s", result.description());
-		ret = false;
-	}
-	else
-	{
-		savegame = savegame_file.child("save");
-	}
-	return ret;
-
-}
 
 // ---------------------------------------------
 void j1App::PrepareUpdate()
@@ -303,27 +287,31 @@ void j1App::Load_Request()
 	save_request = true;
 }
 
-void j1App::Save() 
+void j1App::Save()
 {
-	LOG("JIOOOO");
-}
-
-bool j1App::Load()
-{
-	bool ret = LoadSavedGame();
-
-	if (ret == true)
-	{
 		p2List_item<j1Module*>* item;
 		item = modules.start;
-
-		while (item != NULL && ret == true)
+		while (item != NULL)
 		{
-			ret = item->data->Load(savegame.child(item->data->name.GetString()));
+			item->data->Save(savegame.child(item->data->name.GetString()));
 			item = item->next;
 		}
+			savegame_file.save_file("savegame.xml");
+}
+
+void j1App::Load()
+{
+
+	//LOG("Could not load map xml file savegame.xml. pugi error: %s", result.description());
+		savegame = savegame_file.child("save");
+	p2List_item<j1Module*>* item;
+	item = modules.start;
+
+	while (item != NULL)
+	{
+		item->data->Load(savegame.child(item->data->name.GetString()));
+		item = item->next;
 	}
-	return ret;
 }
 
 

@@ -18,7 +18,9 @@ public:
 	bool Awake(pugi::xml_node&);
 
 
-	bool Load(pugi::xml_node&);
+	void Load(pugi::xml_node&);
+
+	void Save(pugi::xml_node&);
 
 	// Called before the first frame
 	bool Start();
