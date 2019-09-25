@@ -11,8 +11,14 @@ struct Mix_Chunk;
 class j1Audio : public j1Module
 {
 public:
+	
+	int volume;
 
 	j1Audio();
+
+	void Load(pugi::xml_node&);
+
+	void Save(pugi::xml_node&);
 
 	// Destructor
 	virtual ~j1Audio();
@@ -32,10 +38,15 @@ public:
 	// Play a previously loaded WAV
 	bool PlayFx(unsigned int fx, int repeat = 0);
 
+	void Musicup();
+	void Musicdown();
+
 private:
 
 	_Mix_Music*			music;
 	p2List<Mix_Chunk*>	fx;
+	
+
 };
 
 #endif // __j1AUDIO_H__

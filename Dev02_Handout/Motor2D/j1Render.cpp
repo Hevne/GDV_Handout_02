@@ -55,12 +55,13 @@ void j1Render::Load(pugi::xml_node& savedgame)
 {	
 	camera.x = savedgame.child("camera").attribute("x").as_int();
 	camera.y = savedgame.child("camera").attribute("y").as_int();
+	
 }
 
 void j1Render::Save(pugi::xml_node& savedgame)
 {
-	savedgame.child("camera").attribute("x").set_value(camera.x);
-	savedgame.child("camera").attribute("y").set_value(camera.y);
+	savedgame.append_child("camera").append_attribute("x").set_value(camera.x);
+	savedgame.child("camera").append_attribute("y").set_value(camera.y);
 }
 
 // Called before the first frame

@@ -21,6 +21,8 @@ j1Audio::~j1Audio()
 // Called before render is available
 bool j1Audio::Awake(pugi::xml_node& config)
 {
+	
+	
 	LOG("Loading Audio Mixer");
 	bool ret = true;
 	SDL_Init(0);
@@ -50,7 +52,8 @@ bool j1Audio::Awake(pugi::xml_node& config)
 		active = false;
 		ret = true;
 	}
-
+	volume = config.child("defaultvalue").attribute("volume").as_int();
+	LOG("volume: %i", volume);
 	return ret;
 }
 
@@ -129,7 +132,7 @@ bool j1Audio::PlayMusic(const char* path, float fade_time)
 			}
 		}
 	}
-
+	Mix_VolumeMusic(volume);
 	LOG("Successfully playing %s", path);
 	return ret;
 }
@@ -171,4 +174,35 @@ bool j1Audio::PlayFx(unsigned int id, int repeat)
 	}
 
 	return ret;
+}
+
+void j1Audio::Save(pugi::xml_node& savedgame)
+{
+	savedgame.append_child("audio_info").append_attribute("volume").set_value(volume);
+}
+
+void j1Audio::Load(pugi::xml_node& savedgame)
+{
+	volume = savedgame.child("audio_info").attribute("volume").as_int();
+	Mix_VolumeMusic(volume);
+}
+
+void j1Audio::Musicup()
+{
+	if (volume!=MIX_MAX_VOLUME)
+	{
+		volume += 8;
+		LOG("volume: %i", volume);
+		Mix_VolumeMusic(volume);
+	}
+}
+
+void j1Audio::Musicdown()
+{
+	if(volume>0)
+	{
+	volume -= 8;
+	LOG("volume: %i", volume);
+	Mix_VolumeMusic(volume);
+	}
 }

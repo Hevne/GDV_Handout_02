@@ -63,7 +63,6 @@ void j1App::AddModule(j1Module* module)
 bool j1App::Awake()
 {
 	bool ret = LoadConfig();
-	pugi::xml_parse_result result = savegame_file.load_file("savegame.xml");
 	// self-config
 	title.create(app_config.child("title").child_value());
 	organization.create(app_config.child("organization").child_value());
@@ -128,6 +127,7 @@ bool j1App::LoadConfig()
 	bool ret = true;
 
 	pugi::xml_parse_result result = config_file.load_file("config.xml");
+	savegame_file.load_file("savegame.xml");
 
 	if(result == NULL)
 	{
@@ -162,6 +162,18 @@ void j1App::FinishUpdate()
 	{
 		Load();
 		load_request = false;
+	}
+
+	if (volumeup)
+	{
+		App->audio->Musicup();
+		volumeup = false;
+	}
+
+	if (volumedown)
+	{
+		App->audio->Musicdown();
+		volumedown = false;
 	}
 
 	// TODO 2: This is a good place to call load / Save functions
@@ -208,7 +220,6 @@ bool j1App::DoUpdate()
 
 		ret = item->data->Update(dt);
 	}
-
 	return ret;
 }
 
@@ -226,7 +237,6 @@ bool j1App::PostUpdate()
 		if(pModule->active == false) {
 			continue;
 		}
-
 		ret = item->data->PostUpdate();
 	}
 
@@ -277,33 +287,28 @@ const char* j1App::GetOrganization() const
 }
 
 
-void j1App::Save_Request()
-{
-	save_request = true;
-}
-
-void j1App::Load_Request()
-{
-	save_request = true;
-}
-
 void j1App::Save()
 {
 		p2List_item<j1Module*>* item;
 		item = modules.start;
+
+		pugi::xml_document data;
+		pugi::xml_node save_node= data.append_child("save");
+
 		while (item != NULL)
 		{
-			item->data->Save(savegame.child(item->data->name.GetString()));
+			item->data->Save(save_node.append_child(item->data->name.GetString()));
 			item = item->next;
 		}
-			savegame_file.save_file("savegame.xml");
+			data.save_file("savegame.xml");
 }
 
 void j1App::Load()
 {
-
-	//LOG("Could not load map xml file savegame.xml. pugi error: %s", result.description());
-		savegame = savegame_file.child("save");
+	pugi::xml_parse_result result = savegame_file.load_file("savegame.xml");
+		//LOG("Could not load map xml file savegame.xml. pugi error: %s", result.description());
+	
+	savegame = savegame_file.child("save");
 	p2List_item<j1Module*>* item;
 	item = modules.start;
 
@@ -313,6 +318,7 @@ void j1App::Load()
 		item = item->next;
 	}
 }
+
 
 
 // TODO 4: Create a simulation of the xml file to read 

@@ -47,9 +47,6 @@ public:
 	// TODO 1: Create methods to request save and load
 	// that can be called anytime
 
-
-	void Save_Request();
-	void Load_Request();
 	
 
 	void Save();
@@ -88,6 +85,8 @@ public:
 	j1Scene*			scene;
 	bool				save_request;
 	bool				load_request;
+	bool				volumeup;
+	bool				volumedown;
 
 private:
 

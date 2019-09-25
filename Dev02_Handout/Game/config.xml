@@ -9,7 +9,9 @@
   <renderer>
     <vsync value="false"/>
   </renderer>
-
+  <audio>
+    <defaultvolume volume="128"/>
+  </audio>
   <window>
     <resolution width="1024" height="768" scale="1"/>
     <fullscreen value="false"/>
@@ -17,9 +19,7 @@
     <resizable value="false"/>
     <fullscreen_window value="false"/>
   </window>
-  <game>
-    <saved_file xvalue="0"
-                yvalue="0"/>
-  </game>
+
+  
 
 </config>
