@@ -4,7 +4,7 @@
 	<window />
 	<textures />
 	<audio>
-		<audio_info volume="0" />
+		<audio_info volume="24" />
 	</audio>
 	<scene />
 	<renderer>
